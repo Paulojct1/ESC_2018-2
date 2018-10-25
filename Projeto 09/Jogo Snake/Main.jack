@@ -1,0 +1,11 @@
+class Main {
+    function void main() {
+        var SnakeG g;
+
+        let g = SnakeG.new();
+        do g.run();
+	do g.dispose();
+
+        return;
+    }
+}

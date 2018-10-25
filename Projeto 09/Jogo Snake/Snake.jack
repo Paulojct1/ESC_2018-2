@@ -1,0 +1,110 @@
+class Snake {
+
+    field int comp;
+    field int lim;	
+    field Array corpo;
+
+    constructor Snake new() {
+    	let corpo = Array.new(30);
+
+	let corpo[0] = 70;
+	let corpo[1] = 70;
+
+	let lim = 1;
+
+	while ( lim < 1000 )
+	{
+		let corpo[lim + 1] = 70 + lim;
+		let corpo[lim + 2] = 70;
+
+		let lim = lim + 2;
+	}
+	
+	let comp = 10;
+
+	do draw(getHeadX(), getHeadY(), true);
+	return this;
+    }
+
+    method void dispose() {
+        do Memory.deAlloc(this);
+        return;
+    }
+
+    method void draw(int X, int Y, boolean blackPixel) {
+	do Screen.setColor(blackPixel);
+	if ((X < 5) | (X > 500) | (Y < 5) | (Y > 245)) {
+	    do Output.printString("Você PERDEU!!!");
+	    do Sys.halt();
+	}
+
+	do Screen.drawPixel(X, Y);
+	return;
+    }
+
+    method void move (int direction) {
+    	var int i, ultX;
+    	let i = 0;
+	let ultX = (comp - 1) * 2;
+
+	do draw(corpo[0], corpo[1], false);
+	while (i < ((comp * 2) - 2)) {
+		let corpo[i] = corpo[i + 2];
+		let corpo[i + 1] =  corpo[i + 3];
+		let i = i + 2;
+	}
+
+        if (direction = 1) {
+		let corpo[ultX + 1] = corpo[ultX + 1] - 1;
+        }
+        if (direction = 2) {
+		let corpo[ultX + 1] = corpo[ultX + 1] + 1;
+        }
+        if (direction = 3) {
+		let corpo[ultX] = (corpo[ultX] - 1);
+        }
+        if (direction = 4) {
+		let corpo[ultX] = (corpo[ultX] + 1);
+        }
+	do draw(getHeadX(), getHeadY(), true);
+
+	return;
+    }
+
+    method int getHeadX() {
+	return corpo[(comp - 1) * 2];
+    }
+
+    method int getHeadY() {
+	return corpo[1 + ((comp - 1) * 2)];
+    }
+
+
+    method void grow(int direction) {
+    	var int proX, ultX;
+
+	let ultX = (comp - 1) * 2;
+	let proX = ultX + 2;
+	let comp = comp + 1;
+
+	if (direction = 1) {
+		let corpo[proX] = corpo[ultX];
+		let corpo[proX + 1] = corpo[ultX + 1] + 1;
+        }
+        if (direction = 2) {
+		let corpo[proX] = corpo[ultX];
+		let corpo[proX + 1] = corpo[ultX + 1] - 1;
+        }
+        if (direction = 3) {
+		let corpo[proX] = corpo[ultX] + 1;
+		let corpo[proX + 1] = corpo[ultX + 1];
+        }
+        if (direction = 4) {
+		let corpo[proX] = corpo[ultX] - 1;
+		let corpo[proX + 1] = corpo[ultX + 1];
+        }
+	do draw(getHeadX(), getHeadY(), true);
+
+	return;
+    }
+}
